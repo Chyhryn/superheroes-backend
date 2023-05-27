@@ -12,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
+app.use("/healthz", healthzRouter);
 app.use("/api/heroes", heroesRouter);
 
 app.use((_, res, __) => {
