@@ -1,5 +1,6 @@
 const express = require("express");
 const { heroesRouter } = require("./routes/api/heroesRouter");
+const {healthzRouter} = require("./routes/api/healthzRouter");
 const cors = require("cors");
 const logger = require("morgan");
 require("dotenv").config();
