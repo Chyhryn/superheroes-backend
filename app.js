@@ -1,8 +1,9 @@
 const express = require("express");
 const { heroesRouter } = require("./routes/api/heroesRouter");
-const {healthzRouter} = require("./routes/api/healthzRouter");
+const { healthzRouter } = require("./routes/api/healthzRouter");
 const cors = require("cors");
 const logger = require("morgan");
+const mongooseErrorHandler = require("./middlewares/mongooseErrorHandler");
 require("dotenv").config();
 
 const app = express();
@@ -12,6 +13,8 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
+
+app.use(mongooseErrorHandler);
 
 app.use("/healthz", healthzRouter);
 app.use("/api/heroes", heroesRouter);

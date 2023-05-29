@@ -1,25 +1,21 @@
 const { Schema, model } = require("mongoose");
 
+const mongooseErrorHandler = require("../middlewares/mongooseErrorHandler");
+
 const heroSchema = new Schema(
   {
-    nickname: { type: String, minlength: 2, maxlength: 70, required: true },
-    real_name: { type: String, minlength: 2, maxlength: 100, required: true },
+    nickname: { type: String, required: true },
+    real_name: { type: String, required: true },
     origin_description: {
       type: String,
-      minlength: 20,
-      maxlength: 1000,
       required: true,
     },
     superpowers: {
       type: String,
-      minlength: 10,
-      maxlength: 500,
       required: true,
     },
     catch_phrase: {
       type: String,
-      minlength: 2,
-      maxlength: 300,
       required: true,
     },
     Images: {
@@ -29,6 +25,8 @@ const heroSchema = new Schema(
   },
   { versionKey: false }
 );
+
+// heroSchema.post("save", mongooseErrorHandler);
 
 const Heroes = model("heroes", heroSchema);
 
