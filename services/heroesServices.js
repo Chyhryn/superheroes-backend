@@ -16,8 +16,8 @@ const removeHero = (_id) => {
   return Heroes.findOneAndRemove(_id);
 };
 
-const getHero = (_id) => {
-  return Heroes.findOne(_id);
+const getHero = (data) => {
+  return Heroes.findOne(data);
 };
 
 module.exports = { getHeroes, createHero, changeHero, removeHero, getHero };

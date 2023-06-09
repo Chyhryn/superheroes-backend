@@ -26,7 +26,7 @@ const heroSchema = new Schema(
   { versionKey: false }
 );
 
-// heroSchema.post("save", mongooseErrorHandler);
+heroSchema.post("save", mongooseErrorHandler);
 
 const Heroes = model("heroes", heroSchema);
 

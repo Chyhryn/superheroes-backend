@@ -1,22 +1,19 @@
 const service = require("../../services");
 const fs = require("fs/promises");
 const path = require("path");
-
-const imagesDir = path.join(__dirname, "../../", "public", "images");
+const { v4: uuidv4 } = require("uuid");
+const { uploadImages } = require("../../utils/cloudinary");
 
 const addHero = async (req, res) => {
   const { files, body } = req;
   const Images = [];
-  await files.forEach((file) => {
-    const { path: tempUpload, originalname } = file;
-    const resultUpload = path.join(imagesDir, originalname);
-    try {
-      fs.rename(tempUpload, resultUpload);
-      Images.push(path.join("images", originalname));
-    } catch (error) {
-      fs.unlink(tempUpload);
-    }
-  });
+  for (const file of files) {
+    const { path: tempUpload } = file;
+    const fileName = uuidv4();
+    const imgUrl = await uploadImages({ tempUpload, fileName });
+    Images.push(imgUrl);
+    await fs.unlink(tempUpload);
+  }
 
   const newHero = { ...body, Images };
 

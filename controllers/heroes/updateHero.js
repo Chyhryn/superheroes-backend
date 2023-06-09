@@ -2,6 +2,7 @@ const service = require("../../services");
 const fs = require("fs/promises");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
+const { uploadImages } = require("../../utils/cloudinary");
 
 const productsDir = path.join(__dirname, "../../", "public", "images");
 
@@ -10,20 +11,15 @@ const updateHero = async (req, res) => {
   const data = { ...body };
 
   if (files.length > 0) {
-    const hero = await service.getHero({ _id: req.params.id });
-    const Images = hero.Images;
-    await files.forEach((file) => {
-      const { path: tempUpload, originalname } = file;
-      const newName = uuidv4() + "-" + originalname;
-      const resultUpload = path.join(productsDir, newName);
-      try {
-        fs.rename(tempUpload, resultUpload);
-        Images.push(path.join("images", newName));
-        data.Images = Images;
-      } catch (error) {
-        fs.unlink(tempUpload);
-      }
-    });
+    const { Images } = await service.getHero({ _id: req.params.id });
+    for (let file of files) {
+      const { path: tempUpload } = file;
+      const fileName = uuidv4();
+      const imgUrl = await uploadImages({ tempUpload, fileName });
+      Images.push(imgUrl);
+      data.Images = Images;
+      await fs.unlink(tempUpload);
+    }
   }
 
   const response = await service.changeHero({ _id: req.params.id }, data);
