@@ -9,6 +9,8 @@ router.get("/", controller.getAllHeroes);
 
 router.post("/", upload.array("Images"), controller.addHero);
 
+router.get("/list", controller.getHeroesList);
+
 router.get("/:id", tryCatch(controller.getHero));
 
 router.put("/:id", upload.array("Images"), tryCatch(controller.updateHero));

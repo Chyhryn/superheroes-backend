@@ -1,9 +1,3 @@
-const {
-  getHeroes,
-  createHero,
-  changeHero,
-  removeHero,
-  getHero,
-} = require("./heroesServices");
+const service = require("./heroesServices");
 
-module.exports = { getHeroes, createHero, changeHero, removeHero, getHero };
+module.exports = service;

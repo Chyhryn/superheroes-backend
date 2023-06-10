@@ -4,6 +4,7 @@ const updateHero = require("./updateHero");
 const deleteHero = require("./deleteHero");
 const getHero = require("./getHero");
 const deleteHeroImg = require("./deleteHeroImg");
+const getHeroesList = require("./getHeroesList");
 
 module.exports = {
   getAllHeroes,
@@ -12,4 +13,5 @@ module.exports = {
   deleteHero,
   getHero,
   deleteHeroImg,
+  getHeroesList,
 };

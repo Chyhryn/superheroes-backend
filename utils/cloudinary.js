@@ -24,7 +24,6 @@ const uploadImages = async (image) => {
     });
     return res.secure_url;
   } catch (error) {
-    console.log(error);
     return error;
   }
 };

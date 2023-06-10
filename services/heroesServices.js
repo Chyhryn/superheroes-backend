@@ -4,6 +4,31 @@ const getHeroes = () => {
   return Heroes.find();
 };
 
+const findHeroesList = async ({ page, limit, search = "" }) => {
+  const searchRegex = { $regex: search, $options: "i" };
+  const searchRules = {
+    $or: [
+      { nickname: searchRegex },
+      { real_name: searchRegex },
+      { origin_description: searchRegex },
+      { superpowers: searchRegex },
+      { catch_phrase: searchRegex },
+    ],
+  };
+
+  const heroesList = await Heroes.find(searchRules)
+    .limit(limit * 1)
+    .skip((page - 1) * limit);
+
+  const count = await Heroes.countDocuments(searchRules);
+
+  return {
+    heroesList,
+    totalPages: Math.ceil(count / limit),
+    currentPage: page,
+  };
+};
+
 const createHero = ({ ...arg }) => {
   return Heroes.create(arg);
 };
@@ -20,4 +45,11 @@ const getHero = (data) => {
   return Heroes.findOne(data);
 };
 
-module.exports = { getHeroes, createHero, changeHero, removeHero, getHero };
+module.exports = {
+  getHeroes,
+  createHero,
+  changeHero,
+  removeHero,
+  getHero,
+  findHeroesList,
+};
